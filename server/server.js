@@ -11,8 +11,10 @@ mongoose.connect(
   { useNewUrlParser: true }
 );
 
+const { User } = require("./models/user");
+
 app.use(bodyParser.json());
-app.uses(cookieParser());
+app.use(cookieParser());
 
 const port = process.env.PORT || 3001;
 
