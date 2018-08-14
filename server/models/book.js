@@ -25,7 +25,7 @@ const bookSchema = mongoose.Schema(
       type: String,
       default: "n/a"
     },
-    onwerId: {
+    ownerId: {
       type: String,
       required: true
     }
