@@ -13,18 +13,35 @@ mongoose.connect(
 
 const { User } = require("./models/user");
 const { Book } = require("./models/book");
+const { auth } = require("./middleware/auth");
 
 app.use(bodyParser.json());
 app.use(cookieParser());
 
 // GET //
 
+app.get("/api/auth", auth, (req, res) => {
+  res.json({
+    isAuth: true,
+    id: req.user._id,
+    email: req.user.email,
+    name: req.user.name,
+    lastname: req.user.lastname
+  });
+});
+
+app.get("/api/logout", auth, (req, res) => {
+  req.user.deleteToken(req.token, (err, user) => {
+    if (err) return res.status(400).send(err);
+
+    res.sendStatus(200);
+  });
+});
+
 app.get("/api/book", (req, res) => {
   let id = req.query.id;
 
   Book.findById(id, (err, doc) => {
-    if (err) return res.status(400).send(err);
-
     res.send(doc);
   });
 });
