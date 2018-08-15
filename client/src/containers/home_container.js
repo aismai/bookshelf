@@ -6,7 +6,7 @@ import BookItem from "../widgetsUI/book_item";
 
 class HomeContainer extends Component {
   componentWillMount() {
-    this.props.dispatch(getBooks());
+    this.props.dispatch(getBooks(1, 0, "desc"));
   }
 
   renderItems = books =>
@@ -14,8 +14,20 @@ class HomeContainer extends Component {
       ? books.list.map(item => <BookItem {...item} key={item._id} />)
       : null;
 
+  loadMore = () => {
+    let count = this.props.books.list.length;
+
+    this.props.dispatch(getBooks(1, count, "desc", this.props.books.list));
+  };
   render() {
-    return <div>{this.renderItems(this.props.books)}</div>;
+    return (
+      <div>
+        {this.renderItems(this.props.books)}
+        <div className="loadmore" onClick={this.loadMore}>
+          Load more
+        </div>
+      </div>
+    );
   }
 }
 
